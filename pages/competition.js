@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
 import { Row, Col } from 'antd'
 import EditorLayout from '../src/Layout/EditorLayout'
+import Console from '../src/components/Console'
 
 const AceEditor = dynamic(() => import('react-ace'),
 {
@@ -11,6 +12,7 @@ const AceEditor = dynamic(() => import('react-ace'),
 export default class competition extends Component {
   state = {
     code: '',
+    result: '',
   }
 
   componentDidMount() {
@@ -19,14 +21,23 @@ export default class competition extends Component {
     require('brace/theme/monokai')
   }
 
-  onEditorChange = (code) => {
-    this.setState({
+  onEditorChange = async (code) => {
+    await this.setState({
       code,
     })
   }
 
   onCompile = () => {
-    eval(this.state.code.toString())
+    try {
+      const result = eval(this.state.code.toString())
+      this.setState({
+        result,
+      })
+    } catch (error) {
+      this.setState({
+        result: `Error: ${error}`
+      })
+    }
   }
 
   render() {
@@ -34,7 +45,7 @@ export default class competition extends Component {
       <EditorLayout
         onCompile={this.onCompile}
       >
-        <Row>
+        <Row gutter={4}>
           <Col span={12}>
             <AceEditor
               mode="javascript"
@@ -43,7 +54,7 @@ export default class competition extends Component {
               height="850px"
               value={this.state.code}
               onChange={this.onEditorChange}
-              name="UNIQUE_ID_OF_DIV"
+              name="ace-code-editor"
               editorProps={{
                 $blockScrolling: true
               }}
@@ -52,7 +63,10 @@ export default class competition extends Component {
               }}
             />
           </Col>
-          <Col span={12}>
+          <Col 
+            span={12}
+          >
+            <Console />
           </Col>
         </Row>
       </EditorLayout>
