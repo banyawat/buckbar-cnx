@@ -6,7 +6,8 @@ const confirm = Modal.confirm;
 const URL = 'http://localhost:8080/users'
 export default class index extends Component {
   state = {
-    name:''
+    name:'',
+    score: 0,
   }
   setName=(e)=>{
     this.setState({
@@ -14,9 +15,40 @@ export default class index extends Component {
     })
   }
 
+  countDown = () => {
+    let secondsToGo = 300
+    const modal = Modal.success({
+      title: 'Countdown',
+      content: `กำลังจะเข้าสู่หน้าโจทย์ภายในเวลา ${secondsToGo} วินาที`,
+      onOk: () => {
+        this.goToCompetition()
+      }
+    })
+    const timer = setInterval(() => {
+      secondsToGo -= 1;
+      modal.update({
+        content: `กำลังจะเข้าสู่หน้าโจทย์ภายในเวลา ${secondsToGo} วินาที`,
+        onOk: () => {
+          this.goToCompetition()
+        },
+      })
+    }, 1000)
+    setTimeout(() => {
+      clearInterval(timer)
+      modal.destroy()
+      this.goToCompetition()
+    }, secondsToGo * 1000);
+  }
+
+  goToCompetition = () => {
+    const { name, score } = this.state
+    Router.push(`/competition?name=${name}&score=${score}`, '/competition', {
+      shallow: true
+    })
+  }
+
   submit= async()=> {
     let isSameName = null
-    let score = 0
     const { name } = this.state
     const {data} = await axios(URL)
     if(name){
@@ -24,36 +56,34 @@ export default class index extends Component {
         data.forEach((e)=>{
           if(e.name === name){
             isSameName = true
-            score = e.score 
+            this.setState({
+              score: e.score
+            })
           }
         })
       }
-      await this.showConfirm(isSameName,score)
+      await this.showConfirm(isSameName)
     } else {
       this.handleNotName()
     }
   }
 
-  showConfirm = async(isSameName,score)=>{
+  showConfirm = async(isSameName)=>{
     const { name } = this.state
     if(isSameName){
       confirm({
         title: 'ชื่อซ้ำจ้า',
         content: 'ชื่อนี้ถูกใช้ไปแล้ว คุณคือบุคคลเดิมที่ใช้ชื่อนี้หรือไหม่?',
-        onOk() {
-          Router.push(`/competition?name=${name}&score=${score}`, '/competition', {
-            shallow: true
-          })
+        onOk:() => {
+          this.countDown()
         },
       });
     }else{
       await axios.post(URL, {
         name,
-        score:0,
+        score: 0,
       })
-      Router.push(`/competition?name=${name}&score=0`, '/competition', {
-        shallow: true
-      })
+      this.countDown()
     }
   }
 
