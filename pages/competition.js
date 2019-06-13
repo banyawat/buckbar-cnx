@@ -52,8 +52,11 @@ class Competition extends Component {
       logs: [],
     })
     try {
-      const result = eval(this.state.code.toString())
-      if(compareResult('',result)){
+      const result = eval(`
+      ${this.state.code.toString()}
+      answer()
+      `)
+      if(compareResult('test',result)){
         const { time } = this.state
         this.setState({
           currentScore: time,
@@ -86,11 +89,11 @@ class Competition extends Component {
   }
 
   onSubmit = async (visible) => {
-    const { name, score } = this.props.query
+    const { name, score } = this.props.router.query
     const { currentScore } = this.state
     await axios.post(URL, {
       name:name,
-      score:score+currentScore,
+      score:parseInt(score,10)+parseInt(currentScore, 10),
     })
     this.setState({ 
         visible:visible
