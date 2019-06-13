@@ -4,6 +4,7 @@ import { Row, Col } from 'antd'
 import EditorLayout from '../src/Layout/EditorLayout'
 import Countdown from "../src/components/Countdown"
 import Console from '../src/components/Console'
+import ResultModal from '../src/components/ResultModal'
 
 const AceEditor = dynamic(() => import('react-ace'),
 {
@@ -12,6 +13,7 @@ const AceEditor = dynamic(() => import('react-ace'),
 
 export default class competition extends Component {
   state = {
+    content: 'ผลลัพธ์ถูก',
     code: '',
     result: '',
   }
@@ -32,6 +34,8 @@ export default class competition extends Component {
     try {
       const result = eval(this.state.code.toString())
       this.setState({
+        content:'ผลลัพธ์ถูก',
+        visible:true,
         result,
       })
     } catch (error) {
@@ -39,7 +43,24 @@ export default class competition extends Component {
     }
   }
 
+  onTimeout = () => {
+    this.setState({ 
+      content:'หมดเวลา',
+      visible:true,
+    })
+  }
+
+  onSubmit = (visible) => {
+    this.setState({ 
+        visible:visible
+     })
+  }
+
   render() {
+    const {
+      content,
+      visible,
+    } = this.state
     return (
       <div>
       <EditorLayout
@@ -69,7 +90,8 @@ export default class competition extends Component {
             <Console />
           </Col>
         </Row>
-        <Countdown />
+        <Countdown callback={this.onTimeout}/>
+        <ResultModal content={content} visible={visible} callback={this.onSubmit}/>
       </EditorLayout>
       </div>
     )
