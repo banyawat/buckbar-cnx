@@ -19,8 +19,14 @@ export default class competition extends Component {
     require('brace/theme/monokai')
   }
 
+  onEditorChange = (code) => {
+    this.setState({
+      code,
+    })
+  }
+
   onCompile = () => {
-    console.log('Compiling...')
+    eval(this.state.code.toString())
   }
 
   render() {
@@ -35,9 +41,8 @@ export default class competition extends Component {
               theme="monokai"
               width="100%"
               height="850px"
-              onChange={() => {
-                console.log('test')
-              }}
+              value={this.state.code}
+              onChange={this.onEditorChange}
               name="UNIQUE_ID_OF_DIV"
               editorProps={{
                 $blockScrolling: true
