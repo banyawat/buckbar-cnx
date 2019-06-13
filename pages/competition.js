@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
+import { withRouter } from 'next/router'
 import { Row, Col } from 'antd'
 import EditorLayout from '../src/Layout/EditorLayout'
+import Countdown from "../src/components/Countdown"
 import Console from '../src/components/Console'
+import ResultModal from '../src/components/ResultModal'
 
 const PREFIX = '$bugbar >'
 
@@ -11,8 +14,9 @@ const AceEditor = dynamic(() => import('react-ace'),
   ssr: false
 })
 
-export default class competition extends Component {
+class Competition extends Component {
   state = {
+    content: 'ผลลัพธ์ถูก',
     code: '',
     result: '',
     logs: [],
@@ -43,6 +47,8 @@ export default class competition extends Component {
     try {
       const result = eval(this.state.code.toString())
       this.setState({
+        content:'ผลลัพธ์ถูก',
+        visible:true,
         result,
       })
     } catch (error) {
@@ -50,8 +56,26 @@ export default class competition extends Component {
     }
   }
 
+  onTimeout = () => {
+    this.setState({ 
+      content:'หมดเวลา',
+      visible:true,
+    })
+  }
+
+  onSubmit = (visible) => {
+    this.setState({ 
+        visible:visible
+     })
+  }
+
   render() {
+    const {
+      content,
+      visible,
+    } = this.state
     return (
+      <div>
       <EditorLayout
         onCompile={this.onCompile}
       >
@@ -84,7 +108,12 @@ export default class competition extends Component {
             />
           </Col>
         </Row>
+        <Countdown callback={this.onTimeout}/>
+        <ResultModal content={content} visible={visible} callback={this.onSubmit}/>
       </EditorLayout>
+      </div>
     )
   }
 }
+
+export default Competition

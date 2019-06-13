@@ -1,10 +1,12 @@
 import { Layout, Button } from 'antd'
+import { withRouter } from 'next/router'
 
 const { Header, Content } = Layout
 
 const EditorLayout = ({ 
   children,
   onCompile,
+  router,
 }) => (
   <Layout
     style={{
@@ -26,6 +28,11 @@ const EditorLayout = ({
             width: 130
           }}
         />
+        <h2
+          style={{
+            color: '#fff'
+          }}
+        >Comptetitor: {router.query.name}</h2>
         <Button 
           type="primary"
           icon="play-circle"
@@ -47,4 +54,4 @@ const EditorLayout = ({
   </Layout>
 )
 
-export default EditorLayout
+export default withRouter(EditorLayout)
