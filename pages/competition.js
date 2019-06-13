@@ -11,6 +11,7 @@ import compareResult from '../src/libs/compareResult'
 import getAssignmentAPI from '../src/libs/getAssignment'
 
 const URL = 'http://localhost:8080/users'
+const URL_ASSIGNMENT = 'http://localhost:8080/assignments'
 const PREFIX = '$bugbar >'
 
 const AceEditor = dynamic(() => import('react-ace'),
@@ -23,6 +24,7 @@ class Competition extends Component {
     time: 30,
     currentScore: 0,
     content: 'ผลลัพธ์ถูก',
+    assignmentID: '',
     code: '',
     answer: '',
     result: '',
@@ -48,6 +50,7 @@ class Competition extends Component {
   getAssignment = async () => {
     const result = await getAssignmentAPI()
     this.setState({
+      assignmentID: result._id,
       code: result.assignment,
       answer: result.answer,
     })
@@ -59,7 +62,7 @@ class Competition extends Component {
     })
   }
 
-  onCompile = () => {
+  onCompile = async () => {
     this.setState({
       logs: [],
     })
@@ -70,6 +73,11 @@ class Competition extends Component {
       answer()
       `)
       console.log(result)
+
+      await axios.post(URL_ASSIGNMENT, {
+        name,
+        assignmentID,
+      })
       if(compareResult(answer,result)){
         this.setState({
           currentScore: time,
