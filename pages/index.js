@@ -16,7 +16,7 @@ export default class index extends Component {
   }
 
   countDown = () => {
-    let secondsToGo = 300
+    let secondsToGo = 3
     const modal = Modal.success({
       title: 'Countdown',
       content: `กำลังจะเข้าสู่หน้าโจทย์ภายในเวลา ${secondsToGo} วินาที`,
