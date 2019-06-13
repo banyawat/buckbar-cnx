@@ -1,19 +1,11 @@
 import React, { Component } from 'react'
 import '../assets/scoreboard.less'
 import { Button, Layout, List, Avatar } from 'antd'
-const { Header, Content, Footer } = Layout
-import dynamic from 'next/dynamic'
 import defaultData from '../data/db.json'
 
-// const low = dynamic(import('lowdb'))
-// const LocalStorage = dynamic(import('lowdb/adapters/LocalStorage'))
-// const adapter = new LocalStorage('db')
-// const db = low(adapter)
+const { Header, Content, Footer } = Layout
 
-// db.defaults(defaultData)
-//   .write()
-
-export default class scoreboard extends Component {
+export default class Scoreboard extends Component {
   sortScore = (data, prop, asc) => {
     return data.sort((a, b) => {
       if (asc) {
@@ -31,23 +23,30 @@ export default class scoreboard extends Component {
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
           title={<a href="https://ant.design">{item.name}</a>}
         />
+          <div>{item.score}</div>
       </List.Item>
     )
   }
 
   render() {
-    // console.log(db.get('users').find().value())
     const dataSorted = this.sortScore(defaultData.users, 'score', false)
 
     return (
       <div className="scoreboard">
         <Layout className="main-layout">
-          <Header className="header">
-            Scoreboard
-          </Header>
           <Content>
             <div className="rank-board">
+              <div className="rank-header">
+                <img 
+                  src="/static/img/logo.png"
+                  style={{
+                    padding: 15,
+                    width: 130
+                  }}
+                />
+              </div>
               <List
+                size="large"
                 dataSource={dataSorted}
                 renderItem={this.renderListItem}
               />
