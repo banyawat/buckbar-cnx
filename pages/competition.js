@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
-import { withRouter } from 'next/router'
 import { Row, Col } from 'antd'
 import EditorLayout from '../src/Layout/EditorLayout'
 import Countdown from "../src/components/Countdown"

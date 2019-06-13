@@ -32,7 +32,7 @@ const EditorLayout = ({
           style={{
             color: '#fff'
           }}
-        >Comptetitor: {router.query.name}</h2>
+        >Competitor: {router.query.name}</h2>
         <Button 
           type="primary"
           icon="play-circle"
