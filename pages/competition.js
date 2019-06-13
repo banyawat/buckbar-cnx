@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
 import { Row, Col } from 'antd'
 import EditorLayout from '../src/Layout/EditorLayout'
+import Countdown from "../src/components/Countdown"
 
 const AceEditor = dynamic(() => import('react-ace'),
 {
@@ -31,6 +32,7 @@ export default class competition extends Component {
 
   render() {
     return (
+      <div>
       <EditorLayout
         onCompile={this.onCompile}
       >
@@ -55,7 +57,9 @@ export default class competition extends Component {
           <Col span={12}>
           </Col>
         </Row>
+        <Countdown />
       </EditorLayout>
+      </div>
     )
   }
 }
