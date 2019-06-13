@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../assets/scoreboard.less'
 import { Button, Layout, List, Avatar, Badge } from 'antd'
+import io from 'socket.io-client'
 import axios from 'axios'
 import defaultData from '../data/db.json'
 
@@ -10,9 +11,22 @@ export default class Scoreboard extends Component {
   state = {
     data: [],
   }
+  socket = io('http://localhost:8080')
 
   componentWillMount() {
     this.getScore()
+  }
+
+  componentDidMount() {
+    this.pull()
+  }
+
+  pull = () => {
+    this.socket.on('eiei', (notiData) => {
+      console.log('eiei')
+      this.getScore()
+      // this.forceUpdate()
+    })
   }
 
   getScore = async () => {
@@ -63,6 +77,7 @@ export default class Scoreboard extends Component {
   }
 
   render() {
+    console.log('render')
     const dataSorted = this.sortScore(this.state.data, 'score', false)
     return (
       <div className="scoreboard">
