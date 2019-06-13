@@ -81,6 +81,7 @@ export default class index extends Component {
           style={{
             marginTop: 50,
           }}
+          onPressEnter={this.submit}
         size="large" placeholder="Your Name" onBlur={(e)=>{this.setName(e.target.value)}}/>
         <Button 
           type="primary" 
