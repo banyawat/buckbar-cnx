@@ -1,2 +1,2 @@
-# buckbar-cnx
-Buckbar games for Chiang Mai Developer meetup 2019
+# bugbar-cnx
+Bugbar challenges for Chiang Mai Developer meetup 2019
