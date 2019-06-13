@@ -14,20 +14,24 @@ export default class index extends Component {
     })
   }
 
-  checkSameName= async()=> {
+  submit= async()=> {
     let isSameName = null
     let score = 0
     const { name } = this.state
     const {data} = await axios(URL)
-    if(data){
-      data.forEach((e)=>{
-        if(e.name === name){
-          isSameName = true
-          score = e.score 
-        }
-      })
+    if(name){
+      if(data){
+        data.forEach((e)=>{
+          if(e.name === name){
+            isSameName = true
+            score = e.score 
+          }
+        })
+      }
+      await this.showConfirm(isSameName,score)
+    } else {
+      this.handleNotName()
     }
-    await this.showConfirm(isSameName,score)
   }
 
   showConfirm = async(isSameName,score)=>{
@@ -52,6 +56,12 @@ export default class index extends Component {
       })
     }
   }
+
+  handleNotName = () =>{
+    Modal.warning({
+      title: 'กรุณาระบุชื่อ',
+    });
+  }
   render() {
     return (
       <div style={{ background: '#ECECEC', padding: '30px' ,height:'100vh',width:'100%'}}>
@@ -71,11 +81,12 @@ export default class index extends Component {
           style={{
             marginTop: 50,
           }}
+          onPressEnter={this.submit}
         size="large" placeholder="Your Name" onBlur={(e)=>{this.setName(e.target.value)}}/>
         <Button 
           type="primary" 
           block 
-          onClick={this.checkSameName}
+          onClick={this.submit}
         >
           Start
         </Button>

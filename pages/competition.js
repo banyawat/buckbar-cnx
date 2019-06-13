@@ -8,6 +8,7 @@ import Countdown from "../src/components/Countdown"
 import Console from '../src/components/Console'
 import ResultModal from '../src/components/ResultModal'
 import compareResult from '../src/libs/compareResult'
+import getAssignmentAPI from '../src/libs/getAssignment'
 
 const URL = 'http://localhost:8080/users'
 const PREFIX = '$bugbar >'
@@ -23,6 +24,7 @@ class Competition extends Component {
     currentScore: 0,
     content: 'ผลลัพธ์ถูก',
     code: '',
+    answer: '',
     result: '',
     logs: [],
   }
@@ -39,6 +41,15 @@ class Competition extends Component {
     Hook(window.console, log => {
       this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
     })
+    this.getAssignment()
+  }
+
+  getAssignment = async () => {
+    const result = await getAssignmentAPI()
+    this.setState({
+      code: result.assignment,
+      answer: result.answer,
+    })
   }
 
   onEditorChange = (code) => {
@@ -52,12 +63,12 @@ class Competition extends Component {
       logs: [],
     })
     try {
+      const { time, answer } = this.state
       const result = eval(`
       ${this.state.code.toString()}
       answer()
       `)
-      if(compareResult('test',result)){
-        const { time } = this.state
+      if(compareResult(answer,result)){
         this.setState({
           currentScore: time,
           content:'ผลลัพธ์ถูก',
