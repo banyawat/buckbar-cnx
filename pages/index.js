@@ -37,7 +37,7 @@ export default class index extends Component {
         title: 'ชื่อซ้ำจ้า',
         content: 'ชื่อนี้ถูกใช้ไปแล้ว คุณคือบุคคลเดิมที่ใช้ชื่อนี้หรือไหม่?',
         onOk() {
-          Router.push(`/competition?name=${name}`, '/competition', {
+          Router.push(`/competition?name=${name}&score=${score}`, '/competition', {
             shallow: true
           })
         },
@@ -47,9 +47,8 @@ export default class index extends Component {
         name,
         score:0,
       })
-      Router.push({
-        pathname: '/competition',
-        query: { name,score },
+      Router.push(`/competition?name=${name}&score=0`, '/competition', {
+        shallow: true
       })
     }
   }
@@ -66,7 +65,8 @@ export default class index extends Component {
           onPressEnter={this.checkSameName}
         />
         <Button 
-          type="primary" block 
+          type="primary" 
+          block 
           onClick={this.checkSameName}
         >
           Start
