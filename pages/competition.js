@@ -69,6 +69,7 @@ class Competition extends Component {
       ${this.state.code.toString()}
       answer()
       `)
+      console.log(result)
       if(compareResult(answer,result)){
         this.setState({
           currentScore: time,
