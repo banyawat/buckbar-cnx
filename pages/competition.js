@@ -35,9 +35,7 @@ export default class competition extends Component {
         result,
       })
     } catch (error) {
-      this.setState({
-        result: `Error: ${error}`
-      })
+      console.error(error)
     }
   }
 
