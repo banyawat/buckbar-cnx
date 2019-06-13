@@ -67,7 +67,8 @@ class Competition extends Component {
       logs: [],
     })
     try {
-      const { time, answer } = this.state
+      const { name } = this.props.router.query
+      const { time, answer,assignmentID } = this.state
       const result = eval(`
       ${this.state.code.toString()}
       answer()
