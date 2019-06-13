@@ -8,6 +8,7 @@ import Countdown from "../src/components/Countdown"
 import Console from '../src/components/Console'
 import ResultModal from '../src/components/ResultModal'
 import compareResult from '../src/libs/compareResult'
+import getAssignmentAPI from '../src/libs/getAssignment'
 
 const URL = 'http://localhost:8080/users'
 const PREFIX = '$bugbar >'
@@ -38,6 +39,14 @@ class Competition extends Component {
     const { Hook, Decode } = require('console-feed')
     Hook(window.console, log => {
       this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
+    })
+    this.getAssignment()
+  }
+
+  getAssignment = async () => {
+    const result = await getAssignmentAPI()
+    this.setState({
+      code: result.assignment
     })
   }
 
