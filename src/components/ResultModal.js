@@ -1,7 +1,7 @@
-import { Modal, Button } from 'antd';
+import { Icon, Modal, Button, Row, Col } from 'antd';
 import Router from 'next/router';
 
-const ResuletModal = ({content,visible,callback}) => {
+const ResultModal = ({content,visible,callback}) => {
     return (
     <Modal
         title={null}
@@ -12,13 +12,17 @@ const ResuletModal = ({content,visible,callback}) => {
                 Router.push('/')
                 callback(false)
             }}>
-              Submit
+              กลับไปหน้าแรก
             </Button>,
           ]}
     >
-        {content}
+      <Row>
+        <h2>
+          {content}
+        </h2>
+      </Row>
     </Modal>
   )
 }
 
-export default ResuletModal
+export default ResultModal

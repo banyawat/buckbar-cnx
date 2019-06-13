@@ -25,6 +25,7 @@ class Competition extends Component {
     content: 'ผลลัพธ์ถูก',
     code: '',
     result: '',
+    visible: false,
     logs: [],
   }
 
@@ -33,6 +34,7 @@ class Competition extends Component {
     if(!router.query.name && !router.query.score) {
       Router.push('/')
     }
+    this.getAssignment()
     require('brace')
     require('brace/mode/javascript')
     require('brace/theme/monokai')
@@ -40,7 +42,6 @@ class Competition extends Component {
     Hook(window.console, log => {
       this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
     })
-    this.getAssignment()
   }
 
   getAssignment = async () => {
