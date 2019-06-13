@@ -37,9 +37,8 @@ export default class index extends Component {
         title: 'ชื่อซ้ำจ้า',
         content: 'ชื่อนี้ถูกใช้ไปแล้ว คุณคือบุคคลเดิมที่ใช้ชื่อนี้หรือไหม่?',
         onOk() {
-          Router.push({
-            pathname: '/competition',
-            query: { name,score },
+          Router.push(`/competition?name=${name}`, '/competition', {
+            shallow: true
           })
         },
       });
