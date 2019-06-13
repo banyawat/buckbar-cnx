@@ -6,25 +6,13 @@ const Console = dynamic(() => import('console-feed').then(Comp => Comp.Console),
   ssr: false
 })
 
-class CustomConsole extends Component {
-  state = {
-    logs: []
-  }
-
-  componentDidMount() {
-    const { Hook, Decode } = require('console-feed')
-    Hook(window.console, log => {
-      this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
-    })
-  }
-
-  render() {
-    return (
-      <div style={{ backgroundColor: '#242424' }}>
-        <Console logs={this.state.logs} variant="dark" />
-      </div>
-    )
-  }
-}
+const CustomConsole = ({ logs }) => (
+  <div style={{ 
+    backgroundColor: '#242424',
+    height: '100%'
+  }}>
+    <Console logs={logs} variant="dark" />
+  </div>
+)
 
 export default CustomConsole

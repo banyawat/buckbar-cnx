@@ -6,6 +6,8 @@ import Countdown from "../src/components/Countdown"
 import Console from '../src/components/Console'
 import ResultModal from '../src/components/ResultModal'
 
+const PREFIX = '$bugbar >'
+
 const AceEditor = dynamic(() => import('react-ace'),
 {
   ssr: false
@@ -16,21 +18,31 @@ export default class competition extends Component {
     content: 'ผลลัพธ์ถูก',
     code: '',
     result: '',
+    logs: [],
   }
 
   componentDidMount() {
     require('brace')
     require('brace/mode/javascript')
     require('brace/theme/monokai')
+    const { Hook, Decode } = require('console-feed')
+    Hook(window.console, log => {
+      this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
+    })
+    console.log(PREFIX)
   }
 
-  onEditorChange = async (code) => {
-    await this.setState({
+  onEditorChange = (code) => {
+    this.setState({
       code,
     })
   }
 
   onCompile = () => {
+    this.setState({
+      logs: [],
+    })
+    console.log(PREFIX)
     try {
       const result = eval(this.state.code.toString())
       this.setState({
@@ -86,8 +98,13 @@ export default class competition extends Component {
           </Col>
           <Col 
             span={12}
+            style={{
+              height: '850px'
+            }}
           >
-            <Console />
+            <Console 
+              logs={this.state.logs}
+            />
           </Col>
         </Row>
         <Countdown callback={this.onTimeout}/>
