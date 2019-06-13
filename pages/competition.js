@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
+import { withRouter } from 'next/router'
 import { Row, Col } from 'antd'
 import EditorLayout from '../src/Layout/EditorLayout'
 import Console from '../src/components/Console'
@@ -11,7 +12,7 @@ const AceEditor = dynamic(() => import('react-ace'),
   ssr: false
 })
 
-export default class competition extends Component {
+class Competition extends Component {
   state = {
     code: '',
     result: '',
@@ -88,3 +89,5 @@ export default class competition extends Component {
     )
   }
 }
+
+export default Competition
