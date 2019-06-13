@@ -37,7 +37,7 @@ export default class index extends Component {
         title: 'ชื่อซ้ำจ้า',
         content: 'ชื่อนี้ถูกใช้ไปแล้ว คุณคือบุคคลเดิมที่ใช้ชื่อนี้หรือไหม่?',
         onOk() {
-          Router.push(`/competition?name=${name}`, '/competition', {
+          Router.push(`/competition?name=${name}&score=${score}`, '/competition', {
             shallow: true
           })
         },
@@ -47,21 +47,34 @@ export default class index extends Component {
         name,
         score:0,
       })
-      Router.push({
-        pathname: '/competition',
-        query: { name,score },
+      Router.push(`/competition?name=${name}&score=0`, '/competition', {
+        shallow: true
       })
     }
   }
   render() {
     return (
       <div style={{ background: '#ECECEC', padding: '30px' ,height:'100vh',width:'100%'}}>
-      <Row><h1 style={{textAlign:"center"}}>THINKNET CNX</h1></Row>
-      <Row type="flex" justify="space-around" align="middle">
-        <Card title="BugBar Conner" align="center">
-        <Input size="large" placeholder="Your Name" onBlur={(e)=>{this.setName(e.target.value)}}/>
+    
+      <Row 
+      style={{
+        marginTop: '10%',
+      }}
+      type="flex" justify="space-around" align="middle">
+        <Card 
+        style={{
+          padding: 70,
+        }}
+        cover={<img alt="logo" src="/static/img/logo.png" />}
+        >
+        <Input 
+          style={{
+            marginTop: 50,
+          }}
+        size="large" placeholder="Your Name" onBlur={(e)=>{this.setName(e.target.value)}}/>
         <Button 
-          type="primary" block 
+          type="primary" 
+          block 
           onClick={this.checkSameName}
         >
           Start
