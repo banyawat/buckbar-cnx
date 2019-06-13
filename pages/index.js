@@ -59,7 +59,12 @@ export default class index extends Component {
       <Row><h1 style={{textAlign:"center"}}>THINKNET CNX</h1></Row>
       <Row type="flex" justify="space-around" align="middle">
         <Card title="BugBar Conner" align="center">
-        <Input size="large" placeholder="Your Name" onBlur={(e)=>{this.setName(e.target.value)}}/>
+        <Input 
+          size="large" 
+          placeholder="Your Name" 
+          onBlur={(e)=>{this.setName(e.target.value)}}
+          onPressEnter={this.checkSameName}
+        />
         <Button 
           type="primary" block 
           onClick={this.checkSameName}

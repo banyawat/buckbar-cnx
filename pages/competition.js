@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
+import Router, { withRouter } from 'next/router'
 import { Row, Col } from 'antd'
 import EditorLayout from '../src/Layout/EditorLayout'
 import Countdown from "../src/components/Countdown"
@@ -22,6 +23,10 @@ class Competition extends Component {
   }
 
   componentDidMount() {
+    const { router } = this.props
+    if(!router.query.name && !router.query.score) {
+      Router.push('/')
+    }
     require('brace')
     require('brace/mode/javascript')
     require('brace/theme/monokai')
@@ -115,4 +120,4 @@ class Competition extends Component {
   }
 }
 
-export default Competition
+export default withRouter(Competition)
