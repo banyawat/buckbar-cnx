@@ -16,10 +16,18 @@ const ResultModal = ({content,visible,callback}) => {
             </Button>,
           ]}
     >
-      <Row>
-        <h2>
+      <Row type="flex" justify="center">
+        <Icon 
+          type="info-circle"
+          style={{
+            fontSize: 80
+          }}
+        />
+      </Row>
+      <Row type="flex" justify="center">
+        <h1>
           {content}
-        </h2>
+        </h1>
       </Row>
     </Modal>
   )

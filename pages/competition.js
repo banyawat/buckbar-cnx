@@ -73,7 +73,7 @@ class Competition extends Component {
       if(compareResult(answer,result)){
         this.setState({
           currentScore: time,
-          content:'ผลลัพธ์ถูก',
+          content:'ถูกต้องนะคร้าบบ',
           visible:true,
           result,
         })
@@ -95,7 +95,7 @@ class Competition extends Component {
 
   onTimeout = () => {
     this.setState({ 
-      content:'หมดเวลา',
+      content:'หมดเวลาแล้วววว',
       currentScore: 0,
       visible:true,
     })
