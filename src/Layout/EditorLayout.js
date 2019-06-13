@@ -13,14 +13,17 @@ const EditorLayout = ({
   >
     <Header
       style={{
-        height: 70
+        height: 70,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
       }}
     >
         <img 
           src="/static/img/logo.png"
           style={{
             padding: 15,
-            height: '60px'
+            width: 130
           }}
         />
         <Button 

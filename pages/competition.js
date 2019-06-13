@@ -19,9 +19,15 @@ export default class competition extends Component {
     require('brace/theme/monokai')
   }
 
+  onCompile = () => {
+    console.log('Compiling...')
+  }
+
   render() {
     return (
-      <EditorLayout>
+      <EditorLayout
+        onCompile={this.onCompile}
+      >
         <Row>
           <Col span={12}>
             <AceEditor
