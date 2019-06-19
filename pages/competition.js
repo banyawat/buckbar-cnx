@@ -86,7 +86,7 @@ class Competition extends Component {
           visible:true,
           result,
         })
-      }else{
+      } else {
         this.setState({
           result,
         })
