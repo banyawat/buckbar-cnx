@@ -1,4 +1,5 @@
-import { Layout, Button } from 'antd'
+import Link from 'next/link'
+import { Layout, Menu } from 'antd'
 import { withRouter } from 'next/router'
 
 const { Header, Content } = Layout
@@ -19,13 +20,36 @@ const AdminLayout = ({
         justifyContent: 'space-between'
       }}
     >
-        <img 
-          src="/static/img/logo.png"
-          style={{
-            padding: 15,
-            width: 130
-          }}
-        />
+      <Link href='/'>
+        <a>
+          <img 
+            src="/static/img/logo.png"
+            style={{
+              padding: 15,
+              width: 130
+            }}
+          />
+        </a>
+      </Link>
+      <Menu
+        theme="dark"
+        mode="horizontal"
+      >
+        <Menu.Item>
+          <Link href="/admin/dashboard">
+            <a>
+              Dashboard
+            </a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link href="/admin/quests">
+            <a>
+              Quests
+            </a>
+          </Link>
+        </Menu.Item>
+      </Menu>
     </Header>
     <Content
       style={{
