@@ -37,9 +37,7 @@ const EditorLayout = ({
           type="primary"
           icon="play-circle"
           onClick={onCompile}
-          style={{
-
-          }}
+          size='large'
         >
           Run
         </Button>

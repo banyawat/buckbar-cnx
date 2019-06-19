@@ -6,6 +6,7 @@ const ResultModal = ({content,visible,callback}) => {
     <Modal
         title={null}
         visible={visible}
+        closable={false}
         footer={[
             null,
             <Button key="submit" type="primary" onClick={() => {

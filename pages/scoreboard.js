@@ -69,7 +69,7 @@ export default class Scoreboard extends Component {
       <List.Item className={this.getTopStyle(index+1)}>
         <List.Item.Meta
           avatar={<Avatar src="https://cdn4.iconfinder.com/data/icons/web-development-6-1/32/tech_user_boss_person-512.png" />}
-          title={<a href="https://ant.design">{item.name}</a>}
+          title={<a href="#">{item.name}</a>}
         />
           <div className={(index < 3) ? 'top-score' : ''}>{item.score}</div>
       </List.Item>

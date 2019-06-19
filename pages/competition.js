@@ -73,7 +73,7 @@ class Competition extends Component {
       ${this.state.code.toString()}
       answer()
       `)
-      console.log(result)
+      console.log(PREFIX, result)
 
       await axios.post(URL_ASSIGNMENT, {
         name,
