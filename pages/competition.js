@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
+import axios from 'axios'
+import { Row, Col } from 'antd'
 import dynamic from 'next/dynamic'
 import Router, { withRouter } from 'next/router'
-import { Row, Col } from 'antd'
-import axios from 'axios'
-import EditorLayout from '../src/Layout/EditorLayout'
-import Countdown from "../src/components/Countdown"
 import Console from '../src/components/Console'
-import ResultModal from '../src/components/ResultModal'
+import Countdown from '../src/components/Countdown'
+import EditorLayout from '../src/Layout/EditorLayout'
 import compareResult from '../src/libs/compareResult'
+import ResultModal from '../src/components/ResultModal'
 import getAssignmentAPI from '../src/libs/getAssignment'
+import CONSTANT from '../src/constants'
+import submitAssignment from '../src/libs/submitAssignment'
+import submitUser from '../src/libs/submitUser'
 
-const URL = 'http://localhost:8080/users'
-const URL_ASSIGNMENT = 'http://localhost:8080/assignments'
+const { SERVICE_URL } = CONSTANT
+const USER_URL = `${SERVICE_URL}/users`
 const PREFIX = '$bugbar >'
 
 const AceEditor = dynamic(() => import('react-ace'),
@@ -51,7 +54,7 @@ class Competition extends Component {
     const result = await getAssignmentAPI()
     this.setState({
       assignmentID: result._id,
-      code: result.assignment,
+      code: result.question,
       answer: result.answer,
     })
   }
@@ -74,11 +77,10 @@ class Competition extends Component {
       answer()
       `)
       console.log(PREFIX, result)
-
-      await axios.post(URL_ASSIGNMENT, {
+      await submitAssignment(
         name,
         assignmentID,
-      })
+        )
       if(compareResult(answer,result)){
         this.setState({
           currentScore: time,
@@ -113,10 +115,7 @@ class Competition extends Component {
   onSubmit = async (visible) => {
     const { name, score } = this.props.router.query
     const { currentScore } = this.state
-    await axios.post(URL, {
-      name:name,
-      score:parseInt(score,10)+parseInt(currentScore, 10),
-    })
+    await submitUser(name, parseInt(score, 10)+parseInt(currentScore, 10))
     this.setState({ 
         visible:visible
      })
