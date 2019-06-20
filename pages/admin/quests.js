@@ -6,20 +6,9 @@ import {
   Input,
   notification
 } from 'antd'
-import dynamic from 'next/dynamic'
 import AdminLayout from '../../src/Layout/AdminLayout'
 import createNewQuestion from '../../src/libs/createNewQuestion'
-
-const AceEditor = dynamic(() => import('react-ace'),
-{
-  ssr: false
-})
-
-const editorDefaultProps = {
-  theme: 'monokai',
-  width: '100%',
-  fontSize: 18
-}
+import Editor from '../../src/components/Editor'
 
 const initialState = {
   loading: false,
@@ -30,12 +19,6 @@ const initialState = {
 
 export default class Quest extends Component {
   state = initialState
-
-  componentDidMount () {
-    require('brace')
-    require('brace/mode/javascript')
-    require('brace/theme/monokai')
-  }
 
   onTitleChange = ({ target }) => {
     this.setState({
@@ -114,8 +97,7 @@ export default class Quest extends Component {
         <Row gutter={4}>
           <Col span={12}>
             <h2>Question Code (.js)</h2>
-            <AceEditor 
-              {...editorDefaultProps}
+            <Editor 
               mode='javascript'
               name="ace-code-question"
               value={this.state.questionCode}
@@ -124,8 +106,8 @@ export default class Quest extends Component {
           </Col>
           <Col span={12}>
             <h2>Answer (.txt)</h2>
-            <AceEditor 
-              {...editorDefaultProps}
+            <Editor 
+              mode="text"
               name="ace-code-answer"
               value={this.state.answerCode}
               onChange={this.onAnswerCodeEditorChange}

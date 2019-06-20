@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Row, Col } from 'antd'
-import dynamic from 'next/dynamic'
 import Router, { withRouter } from 'next/router'
 import Console from '../src/components/Console'
 import Countdown from '../src/components/Countdown'
@@ -12,15 +10,10 @@ import getAssignmentAPI from '../src/libs/getAssignment'
 import CONSTANT from '../src/constants'
 import submitAssignment from '../src/libs/submitAssignment'
 import submitUser from '../src/libs/submitUser'
+import Editor from '../src/components/Editor'
 
 const { SERVICE_URL } = CONSTANT
-const USER_URL = `${SERVICE_URL}/users`
 const PREFIX = '$bugbar >'
-
-const AceEditor = dynamic(() => import('react-ace'),
-{
-  ssr: false
-})
 
 class Competition extends Component {
   state = {
@@ -41,9 +34,6 @@ class Competition extends Component {
       Router.push('/')
     }
     this.getAssignment()
-    require('brace')
-    require('brace/mode/javascript')
-    require('brace/theme/monokai')
     const { Hook, Decode } = require('console-feed')
     Hook(window.console, log => {
       this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
@@ -133,10 +123,7 @@ class Competition extends Component {
       >
         <Row gutter={4}>
           <Col span={12}>
-            <AceEditor
-              mode="javascript"
-              theme="monokai"
-              width="100%"
+            <Editor
               height="850px"
               value={this.state.code}
               onChange={this.onEditorChange}
