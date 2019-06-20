@@ -24,7 +24,7 @@
   },
   "scripts": {
     "dev": "next",
-    "bulid": "next build",
+    "build": "next build",
     "start": "next start"
   }
 }
