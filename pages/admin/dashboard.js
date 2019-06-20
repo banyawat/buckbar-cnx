@@ -34,17 +34,25 @@ export default class Questions extends Component {
         <List
           dataSource={this.state.assignments}
           renderItem={assignment => (
-            <Card>
+            <Card style={{
+              margin: '8px 0'
+            }}>
               <List.Item 
                 actions={[
-                  <div>
-                    <Link href={`/admin/quests?id=${assignment._id}`}>
-                      <Button>Edit</Button>
-                    </Link>
-                    <Button onClick={() => this.removeAssignment(assignment._id)}>
-                      Delete
-                    </Button>
-                  </div>
+                  <Col>
+                    <Row>
+                      <Link href={`/admin/quests?id=${assignment._id}`}>
+                        <Button style={{
+                          width: '100%'
+                        }}>Edit</Button>
+                      </Link>
+                    </Row>
+                    <Row>
+                      <Button onClick={() => this.removeAssignment(assignment._id)}>
+                        Delete
+                      </Button>
+                    </Row>
+                  </Col>
                 ]}>
                   <Col style={{ width: '100%' }}>
                     <Row><h2>{assignment.name}</h2></Row>
