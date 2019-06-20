@@ -6,6 +6,7 @@ import CONSTANT from '../src/constants'
 
 const confirm = Modal.confirm
 const { SERVICE_URL } = CONSTANT
+const USER_URL = `${SERVICE_URL}/users`
 
 export default class index extends Component {
   state = {
@@ -53,7 +54,7 @@ export default class index extends Component {
   submit= async()=> {
     let isSameName = null
     const { name } = this.state
-    const {data} = await axios(`${SERVICE_URL}/users`)
+    const {data} = await axios.get(USER_URL)
     if(name){
       if(data){
         data.forEach((e)=>{
@@ -82,7 +83,7 @@ export default class index extends Component {
         },
       });
     }else{
-      await axios.post(URL, {
+      await axios.post(USER_URL, {
         name,
         score: 0,
       })
