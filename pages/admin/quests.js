@@ -6,19 +6,49 @@ import {
   Input,
   notification
 } from 'antd'
-import AdminLayout from '../../src/Layout/AdminLayout'
-import createNewQuestion from '../../src/libs/createNewQuestion'
+import Router, { withRouter } from 'next/router'
 import Editor from '../../src/components/Editor'
+import AdminLayout from '../../src/Layout/AdminLayout'
+import getAllAssignment from '../../src/libs/getAllAssignment'
+import updateAssignment from '../../src/libs/updateAssignment'
+import createNewQuestion from '../../src/libs/createNewQuestion'
 
 const initialState = {
   loading: false,
+  id: '',
   title: '',
   questionCode: '',
   answerCode: '',
 }
 
-export default class Quest extends Component {
+class Quest extends Component {
   state = initialState
+
+  static getDerivedStateFromProps (props, state) {
+    const { id } = props.router.query
+    return {
+      ...state,
+      id,
+    }
+  }
+
+  componentDidMount () {
+    if(this.state.id !== '') {
+      this.fetchAssignment()
+    }
+  }
+
+  fetchAssignment = async () => {
+    const result = await getAllAssignment({
+      id: this.state.id
+    })
+    const { answer, name, question } = result
+    this.setState({
+      title: name,
+      answerCode: answer,
+      questionCode: question,
+    })
+  }
 
   onTitleChange = ({ target }) => {
     this.setState({
@@ -42,7 +72,8 @@ export default class Quest extends Component {
     const { 
       title,
       questionCode,
-      answerCode
+      answerCode,
+      id,
     } = this.state
     if(title === '' && questionCode === '' && answerCode === '') {
       notification.warn({
@@ -53,6 +84,26 @@ export default class Quest extends Component {
     this.setState({
       loading: true
     })
+    if(id) {
+      const updateResult = await updateAssignment(id, {
+        name: title,
+        question: questionCode,
+        answer: answerCode
+      })
+      if(updateResult === 'ok') {
+        notification.success({
+          message: 'อัพเดทโจทย์ให้แล้วจร้า'
+        })
+        this.setState(initialState)
+        this.fetchAssignment()
+
+      } else {
+        notification.success({
+          message: 'มีบางอย่างผิดพลาด ลองดูใหม่นะ'
+        })
+      }
+      return
+    }
     const creatingResult = await createNewQuestion(
       title,
       questionCode,
@@ -63,6 +114,7 @@ export default class Quest extends Component {
         message: 'เพิ่มโจทย์ให้แล้วจร้า'
       })
       this.setState(initialState)
+      Router.push('/admin/dashboard')
     } else {
       notification.success({
         message: 'มีบางอย่างผิดพลาด ลองดูใหม่นะ'
@@ -71,6 +123,7 @@ export default class Quest extends Component {
         loading: false,
       })
     }
+    return
   }
 
   render() {
@@ -125,10 +178,12 @@ export default class Quest extends Component {
             }}
             onClick={this.onSubmit}
           >
-            Add new question
+            {(this.state.id === '') ? 'Add new question' : 'Update question'}
           </Button>
         </Row>
       </AdminLayout>
     )
   }
 }
+
+export default withRouter(Quest)

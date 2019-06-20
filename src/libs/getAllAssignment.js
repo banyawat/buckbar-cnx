@@ -4,8 +4,10 @@ import CONSTANT from '../constants'
 const { SERVICE_URL } = CONSTANT
 const ALL_ASSIGNMENT_URL = `${SERVICE_URL}/assignments`
 
-const getAllAssignment = async () => {
-  const result = await axios.get(ALL_ASSIGNMENT_URL)
+const getAllAssignment = async (params = {}) => {
+  const result = await axios.get(ALL_ASSIGNMENT_URL, {
+    params
+  })
   return result.data
 }
 
