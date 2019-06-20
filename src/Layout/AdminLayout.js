@@ -5,7 +5,8 @@ import { withRouter } from 'next/router'
 const { Header, Content } = Layout
 
 const AdminLayout = ({ 
-  children
+  children,
+  router
 }) => (
   <Layout
     style={{
@@ -34,15 +35,20 @@ const AdminLayout = ({
       <Menu
         theme="dark"
         mode="horizontal"
+        selectedKeys={[router.pathname]}
       >
-        <Menu.Item>
+        <Menu.Item
+          key="/admin/dashboard"
+        >
           <Link href="/admin/dashboard">
             <a>
               Dashboard
             </a>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item
+          key="/admin/quests"
+        >
           <Link href="/admin/quests">
             <a>
               Quests
