@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import { Row, Input,Card,Button,Modal } from 'antd';
 import Router from 'next/router'
 import axios from 'axios'
-const confirm = Modal.confirm;
-const URL = 'http://localhost:8080/users'
+import CONSTANT from '../src/constants'
+
+const confirm = Modal.confirm
+const { SERVICE_URL } = CONSTANT
+
 export default class index extends Component {
   state = {
     name:'',
@@ -50,7 +53,7 @@ export default class index extends Component {
   submit= async()=> {
     let isSameName = null
     const { name } = this.state
-    const {data} = await axios(URL)
+    const {data} = await axios(`${SERVICE_URL}/users`)
     if(name){
       if(data){
         data.forEach((e)=>{

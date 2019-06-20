@@ -9,7 +9,8 @@ const Console = dynamic(() => import('console-feed').then(Comp => Comp.Console),
 const CustomConsole = ({ logs }) => (
   <div style={{ 
     backgroundColor: '#242424',
-    height: '100%'
+    height: '100%',
+    overflowY: 'scroll'
   }}>
     <Console logs={logs} variant="dark" />
   </div>

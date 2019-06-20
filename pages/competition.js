@@ -7,12 +7,10 @@ import EditorLayout from '../src/Layout/EditorLayout'
 import compareResult from '../src/libs/compareResult'
 import ResultModal from '../src/components/ResultModal'
 import getAssignmentAPI from '../src/libs/getAssignment'
-import CONSTANT from '../src/constants'
 import submitAssignment from '../src/libs/submitAssignment'
 import submitUser from '../src/libs/submitUser'
 import Editor from '../src/components/Editor'
 
-const { SERVICE_URL } = CONSTANT
 const PREFIX = '$bugbar >'
 
 class Competition extends Component {

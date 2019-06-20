@@ -60,6 +60,7 @@ export default class Questions extends Component {
                       <Col span={12}>
                         <h3>Question</h3>
                         <Editor
+                          name="question-display"
                           highlightActiveLine={false}
                           readOnly={true}
                           height="250px"
@@ -69,7 +70,9 @@ export default class Questions extends Component {
                       <Col span={12}>
                         <h3>Answer</h3>
                         <Editor
+                          name="answer-display"
                           mode="text"
+                          focus={false}
                           highlightActiveLine={false}
                           readOnly={true}
                           height="250px"
