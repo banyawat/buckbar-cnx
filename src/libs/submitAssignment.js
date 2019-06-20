@@ -4,9 +4,9 @@ import CONSTANT from '../constants'
 const { SERVICE_URL } = CONSTANT
 const ASSIGNMENT_URL = `${SERVICE_URL}/assignments`
 
-const submitAssignment = async (name, id) => {
+const submitAssignment = async (username, id) => {
   await axios.post(ASSIGNMENT_URL, {
-    name,
+    username,
     id,
   })
 }

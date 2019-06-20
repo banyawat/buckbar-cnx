@@ -41,7 +41,8 @@ class Competition extends Component {
   }
 
   getAssignment = async () => {
-    const result = await getAssignmentAPI()
+    const { name } = this.props.router.query
+    const result = await getAssignmentAPI(name)
     this.setState({
       assignmentID: result._id,
       code: result.question,

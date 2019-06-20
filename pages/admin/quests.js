@@ -8,16 +8,19 @@ import {
 } from 'antd'
 import Router, { withRouter } from 'next/router'
 import Editor from '../../src/components/Editor'
+import CONSTANT from '../../src/constants'
 import AdminLayout from '../../src/Layout/AdminLayout'
 import getAllAssignment from '../../src/libs/getAllAssignment'
 import updateAssignment from '../../src/libs/updateAssignment'
 import createNewQuestion from '../../src/libs/createNewQuestion'
 
+const { QUEST_PATTERN } = CONSTANT
+
 const initialState = {
   loading: false,
   id: '',
   title: '',
-  questionCode: '',
+  questionCode: QUEST_PATTERN,
   answerCode: '',
 }
 
@@ -75,12 +78,12 @@ class Quest extends Component {
       answerCode,
       id,
     } = this.state
-    if(title ||
-      questionCode ||
-      answerCode ||
-      title === '' ||
-      questionCode === '' ||
-      answerCode === '') {
+    if(!title ||
+      !questionCode ||
+      !answerCode ||
+      title === initialState.title ||
+      questionCode === initialState.questionCode ||
+      answerCode === initialState.answerCode) {
       notification.warn({
         message: 'ใส่ชื่อด้วย โจทย์ด้วย คำตอบด้วยสิ!'
       })
