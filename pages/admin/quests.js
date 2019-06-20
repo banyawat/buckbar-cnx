@@ -33,7 +33,7 @@ class Quest extends Component {
   }
 
   componentDidMount () {
-    if(this.state.id !== '') {
+    if(this.state.id && this.state.id !== '') {
       this.fetchAssignment()
     }
   }
@@ -75,7 +75,12 @@ class Quest extends Component {
       answerCode,
       id,
     } = this.state
-    if(title === '' && questionCode === '' && answerCode === '') {
+    if(title ||
+      questionCode ||
+      answerCode ||
+      title === '' ||
+      questionCode === '' ||
+      answerCode === '') {
       notification.warn({
         message: 'ใส่ชื่อด้วย โจทย์ด้วย คำตอบด้วยสิ!'
       })
