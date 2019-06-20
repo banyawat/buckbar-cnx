@@ -21,17 +21,15 @@ const AdminLayout = ({
         justifyContent: 'space-between'
       }}
     >
-      <Link href='/'>
-        <a>
-          <img 
-            src="/static/img/logo.png"
-            style={{
-              padding: 15,
-              width: 130
-            }}
-          />
-        </a>
-      </Link>
+      <a href='/'>
+        <img 
+          src="/static/img/logo.png"
+          style={{
+            padding: 15,
+            width: 130
+          }}
+        />
+      </a>
       <Menu
         theme="dark"
         mode="horizontal"
