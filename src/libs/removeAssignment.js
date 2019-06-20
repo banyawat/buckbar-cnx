@@ -5,8 +5,10 @@ const { SERVICE_URL } = CONSTANT
 const ASSIGNMENT_URL = `${SERVICE_URL}/assignments`
 
 const removeAssignment = async (id) => {
-  const result = await axios.delete(`${ASSIGNMENT_URL}/${id}`)
-  return result
+  if(id) {
+    const result = await axios.delete(`${ASSIGNMENT_URL}/${id}`)
+    return result
+  }
 }
 
 export default removeAssignment

@@ -5,10 +5,12 @@ const { SERVICE_URL } = CONSTANT
 const ASSIGNMENT_URL = `${SERVICE_URL}/assignments`
 
 const submitAssignment = async (username, id) => {
-  await axios.post(ASSIGNMENT_URL, {
-    username,
-    id,
-  })
+  if (username && id) {
+    await axios.post(ASSIGNMENT_URL, {
+      username,
+      id,
+    })
+  }
 }
 
 export default submitAssignment
