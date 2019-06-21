@@ -78,11 +78,11 @@ class Competition extends Component {
       answer()
       `)
       console.log(PREFIX, result)
-      await submitAssignment(
-        name,
-        assignmentID,
-        )
       if(compareResult(answer,result)){
+        await submitAssignment(
+          name,
+          assignmentID,
+          )
         this.setState({
           currentScore: time,
           content:'ถูกต้องนะคร้าบบ',
