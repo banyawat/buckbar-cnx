@@ -2,17 +2,21 @@ import React, { Component } from 'react'
 import { 
   Row, 
   Col, 
-  Button, 
+  Card,
   Input,
+  Switch,
+  Button, 
   notification
 } from 'antd'
 import dynamic from 'next/dynamic'
 import Router, { withRouter } from 'next/router'
 import CONSTANT from '../../src/constants'
+import Console from '../../src/components/Console'
 import AdminLayout from '../../src/Layout/AdminLayout'
 import getAllAssignment from '../../src/libs/getAllAssignment'
 import updateAssignment from '../../src/libs/updateAssignment'
 import createNewQuestion from '../../src/libs/createNewQuestion'
+import compareResult from '../../src/libs/compareResult'
 
 const { EDITOR_DEFAULT_PROPS } = CONSTANT
 
@@ -29,6 +33,8 @@ const initialState = {
   title: '',
   questionCode: QUEST_PATTERN,
   answerCode: '',
+  testResultMessage: null,
+  logs: [],
 }
 
 class Quest extends Component {
@@ -49,6 +55,10 @@ class Quest extends Component {
     if(this.state.id && this.state.id !== '') {
       this.fetchAssignment()
     }
+    const { Hook, Decode } = require('console-feed')
+    Hook(window.console, log => {
+      this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
+    })
   }
 
   fetchAssignment = async () => {
@@ -144,6 +154,26 @@ class Quest extends Component {
     return
   }
 
+  onTest = () => {
+    this.setState({
+      logs: []
+    })
+    const result = eval(`
+      ${this.state.questionCode.toString()}
+      answer()
+    `)
+    console.log(result)
+    if(compareResult(this.state.answerCode, result)) {
+      this.setState({
+        testResultMessage: 'ผ่าน'
+      })
+    } else {
+      this.setState({
+        testResultMessage: 'ไม่ผ่าน'
+      })
+    }
+  }
+
   render() {
     return (
       <AdminLayout>
@@ -187,19 +217,67 @@ class Quest extends Component {
             />
           </Col>
         </Row>
-        <Row type="flex" justify="end">
-          <Button
-            loading={this.state.loading}
-            size="large"
-            type="primary"
-            icon="play-circle"
-            style={{
-              marginTop: 10
-            }}
-            onClick={this.onSubmit}
-          >
-            {(this.state.id === '') ? 'Add new question' : 'Update question'}
-          </Button>
+        <Row
+          style={{
+            marginTop: 5,
+            height: 220,
+            maxHeight: 220,
+            overflowY: 'scroll'
+          }}
+          type="flex"
+        >
+          <Col span={4}>
+            <Card style={{ height: '100%' }}>
+              <Button
+                size="large"
+                type="primary"
+                icon="play-circle"
+                style={{
+                  width: '100%',
+                  marginTop: 10
+                }}
+                onClick={this.onTest}
+              >
+                  Run
+              </Button>
+              <Row
+                style={{
+                  marginTop: 10,
+                }}
+                gutter={8}
+                type="flex" 
+                justify="center"
+              >
+                <Col>
+                  <span>ไม่ผ่าน</span>
+                </Col>
+                <Col>
+                  <Switch checked={this.state.testResultMessage === 'ผ่าน'} />
+                </Col>
+                <Col>
+                  <span>ผ่าน</span>
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+          <Col span={16}>
+            <Console logs={this.state.logs} />
+          </Col>
+          <Col span={4}>
+              <Button
+                loading={this.state.loading}
+                size="large"
+                type="primary"
+                icon="play-circle"
+                style={{
+                  width: '100%',
+                  marginTop: 10
+                }}
+                onClick={this.onSubmit}
+              >
+                {(this.state.id === '' || !this.state.id) ? 'Add new question' : 'Update question'}
+              </Button>
+          </Col>
         </Row>
       </AdminLayout>
     )

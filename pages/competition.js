@@ -37,7 +37,6 @@ class Competition extends Component {
     require('brace')
     require('brace/mode/javascript')
     require('brace/theme/monokai')
-    const { router } = this.props
     this.getAssignment()
     const { Hook, Decode } = require('console-feed')
     Hook(window.console, log => {
