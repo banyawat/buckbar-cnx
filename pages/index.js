@@ -116,14 +116,14 @@ export default class index extends Component {
             marginTop: 50,
           }}
           onPressEnter={this.submit}
-        size="large" placeholder="Your Name" onChange={(e)=>{this.setName(e.target.value)}}/>
-        <Button 
-          type="primary" 
-          block 
-          onClick={this.submit}
-        >
-          Start
-        </Button>
+          size="large" placeholder="Your Name" onChange={(e)=>{this.setName(e.target.value)}}/>
+          <Button 
+            type="primary" 
+            block 
+            onClick={this.submit}
+          >
+            Start
+          </Button>
         </Card>
       </Row>
       </div>

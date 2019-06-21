@@ -6,13 +6,20 @@ import {
   Input,
   notification
 } from 'antd'
+import dynamic from 'next/dynamic'
 import Router, { withRouter } from 'next/router'
-import Editor from '../../src/components/Editor'
 import CONSTANT from '../../src/constants'
 import AdminLayout from '../../src/Layout/AdminLayout'
 import getAllAssignment from '../../src/libs/getAllAssignment'
 import updateAssignment from '../../src/libs/updateAssignment'
 import createNewQuestion from '../../src/libs/createNewQuestion'
+
+const { EDITOR_DEFAULT_PROPS } = CONSTANT
+
+const AceEditor = dynamic(() => import('react-ace'),
+{
+  ssr: false
+})
 
 const { QUEST_PATTERN } = CONSTANT
 
@@ -36,6 +43,9 @@ class Quest extends Component {
   }
 
   componentDidMount () {
+    require('brace')
+    require('brace/mode/javascript')
+    require('brace/theme/monokai')
     if(this.state.id && this.state.id !== '') {
       this.fetchAssignment()
     }
@@ -158,7 +168,8 @@ class Quest extends Component {
         <Row gutter={4}>
           <Col span={12}>
             <h2>Question Code (.js)</h2>
-            <Editor 
+            <AceEditor 
+              {...EDITOR_DEFAULT_PROPS}
               mode='javascript'
               name="ace-code-question"
               value={this.state.questionCode}
@@ -167,7 +178,8 @@ class Quest extends Component {
           </Col>
           <Col span={12}>
             <h2>Answer (.txt)</h2>
-            <Editor 
+            <AceEditor 
+              {...EDITOR_DEFAULT_PROPS}
               mode="text"
               name="ace-code-answer"
               value={this.state.answerCode}

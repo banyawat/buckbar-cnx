@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 import { List, Card, Button, Row, Col, Skeleton } from 'antd'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import CONSTANT from '../../src/constants'
 import AdminLayout from '../../src/Layout/AdminLayout'
 import getAllAssignment from '../../src/libs/getAllAssignment'
 import removeAssignment from '../../src/libs/removeAssignment'
-import Editor from '../../src/components/Editor'
+
+const { EDITOR_DEFAULT_PROPS } = CONSTANT
+
+const AceEditor = dynamic(() => import('react-ace'),
+{
+  ssr: false
+})
 
 export default class Questions extends Component {
   state = {
@@ -13,6 +21,9 @@ export default class Questions extends Component {
   }
 
   componentDidMount = () => {
+    require('brace')
+    require('brace/mode/javascript')
+    require('brace/theme/monokai')
     this.fetchAssignment()
   }
 
@@ -68,7 +79,8 @@ export default class Questions extends Component {
                       <Row style={{ width: '100%' }} gutter={4}>
                         <Col span={12}>
                           <h3>Question</h3>
-                          <Editor
+                          <AceEditor
+                            {...EDITOR_DEFAULT_PROPS}
                             name="question-display"
                             highlightActiveLine={false}
                             readOnly={true}
@@ -78,7 +90,8 @@ export default class Questions extends Component {
                         </Col>
                         <Col span={12}>
                           <h3>Answer</h3>
-                          <Editor
+                          <AceEditor
+                            {...EDITOR_DEFAULT_PROPS}
                             name="answer-display"
                             mode="text"
                             focus={false}

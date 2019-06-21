@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'antd'
+import dynamic from 'next/dynamic'
 import Router, { withRouter } from 'next/router'
 import Console from '../src/components/Console'
 import Countdown from '../src/components/Countdown'
@@ -9,8 +10,14 @@ import ResultModal from '../src/components/ResultModal'
 import getAssignmentAPI from '../src/libs/getAssignment'
 import submitAssignment from '../src/libs/submitAssignment'
 import submitUser from '../src/libs/submitUser'
-import Editor from '../src/components/Editor'
+import CONSTANT from '../src/constants'
 
+const { EDITOR_DEFAULT_PROPS } = CONSTANT
+
+const AceEditor = dynamic(() => import('react-ace'),
+{
+  ssr: false
+})
 const PREFIX = '$bugbar >'
 
 class Competition extends Component {
@@ -27,10 +34,10 @@ class Competition extends Component {
   }
 
   componentDidMount() {
+    require('brace')
+    require('brace/mode/javascript')
+    require('brace/theme/monokai')
     const { router } = this.props
-    if(!router.query.name && !router.query.score) {
-      Router.push('/')
-    }
     this.getAssignment()
     const { Hook, Decode } = require('console-feed')
     Hook(window.console, log => {
@@ -39,7 +46,11 @@ class Competition extends Component {
   }
 
   getAssignment = async () => {
-    const { name } = this.props.router.query
+    const { name, score } = this.props.router.query
+    if(!name && !score) {
+      Router.push('/')
+      return
+    }
     const result = await getAssignmentAPI(name)
     this.setState({
       assignmentID: result._id,
@@ -122,14 +133,12 @@ class Competition extends Component {
       >
         <Row gutter={4}>
           <Col span={12}>
-            <Editor
+            <AceEditor
+              {...EDITOR_DEFAULT_PROPS}
               height="850px"
               value={this.state.code}
               onChange={this.onEditorChange}
               name="ace-code-editor"
-              editorProps={{
-                $blockScrolling: true
-              }}
               style={{
                 fontSize: 18,
               }}

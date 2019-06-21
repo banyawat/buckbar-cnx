@@ -10,16 +10,13 @@ const editorDefaultProps = {
   mode: 'javascript',
   theme: 'monokai',
   width: '100%',
-  fontSize: 18
+  fontSize: 18,
+  editorProps: {
+    $blockScrolling: true
+  }
 }
 
 export default class Editor extends Component {
-  componentDidMount () {
-    require('brace')
-    require('brace/mode/javascript')
-    require('brace/theme/monokai')
-  }
-
   render() {
     return (
       <AceEditor 

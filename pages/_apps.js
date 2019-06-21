@@ -1,5 +1,6 @@
 import React from 'react'
 import App, { Container } from 'next/app'
+import EditorWrapper from '../src/Layout/EditorWrapper'
 import '../src/styles/index.less'
 
 export default class CustomApp extends App {
@@ -11,6 +12,12 @@ export default class CustomApp extends App {
     }
 
     return { pageProps }
+  }
+
+  componentDidMount () {
+    require('brace')
+    require('brace/mode/javascript')
+    require('brace/theme/monokai')
   }
 
   render() {
