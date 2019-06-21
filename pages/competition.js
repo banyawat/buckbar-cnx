@@ -26,6 +26,7 @@ class Competition extends Component {
     currentScore: 0,
     content: 'ผลลัพธ์ถูก',
     assignmentID: '',
+    name: '',
     code: '',
     answer: '',
     result: '',
@@ -53,6 +54,7 @@ class Competition extends Component {
     const result = await getAssignmentAPI(name)
     this.setState({
       assignmentID: result._id,
+      name: result.name,
       code: result.question,
       answer: result.answer,
     })
@@ -130,6 +132,7 @@ class Competition extends Component {
       <EditorLayout
         onCompile={this.onCompile}
       >
+        <Row><h2>{this.state.name}</h2></Row>
         <Row gutter={4}>
           <Col span={12}>
             <AceEditor

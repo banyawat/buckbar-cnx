@@ -7,7 +7,7 @@ const ASSIGNMENT_URL = `${SERVICE_URL}/assignments`
 const submitAssignment = async (name, id) => {
   if (name && id) {
     await axios.post(ASSIGNMENT_URL, {
-      name,
+      username: name,
       id,
     })
   }
