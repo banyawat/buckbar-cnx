@@ -1,6 +1,5 @@
 import React from 'react'
 import App, { Container } from 'next/app'
-import EditorWrapper from '../src/Layout/EditorWrapper'
 import '../src/styles/index.less'
 
 export default class CustomApp extends App {
