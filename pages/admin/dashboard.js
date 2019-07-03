@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { List, Card, Button, Row, Col, Skeleton } from 'antd'
+import { 
+  Popconfirm,
+  List, 
+  Card, 
+  Button, 
+  Row, 
+  Col, 
+  Skeleton 
+} from 'antd'
 import CONSTANT from '../../src/constants'
 import AdminLayout from '../../src/Layout/AdminLayout'
 import getAllAssignment from '../../src/libs/getAllAssignment'
@@ -73,17 +81,25 @@ export default class Questions extends Component {
                           </Button>
                         </Link>
                       </Row>
-                      <Row>
-                        <Button 
-                          style={{
-                            marginTop: 40
-                          }}
-                          size='small'
-                          type='danger'
-                          onClick={() => this.removeAssignment(assignment._id)}
+                      <Row
+                        style={{
+                          marginTop: 40
+                        }}
+                      >
+                        <Popconfirm
+                          title="ลบจริงหรือเปล่า?"
+                          onConfirm={() => this.removeAssignment(assignment._id)}
+                          okText="ใช่"
+                          cancelText="ไม่"
                         >
-                          Delete
-                        </Button>
+                          <Button 
+                            size='small'
+                            type='danger'
+                            // onClick={() => this.removeAssignment(assignment._id)}
+                          >
+                            Delete
+                          </Button>
+                        </Popconfirm>
                       </Row>
                     </Col>
                   ]}>
