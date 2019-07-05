@@ -27,7 +27,7 @@ class Countdown extends Component {
                 timerOn: false, 
             })
           }
-          this.props.getValue(newTime)
+          this.props.getValue(newTime, this.stopTimer)
         }, 10)
     }
 

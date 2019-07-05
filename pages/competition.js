@@ -79,6 +79,7 @@ class Competition extends Component {
       `)
       console.log(PREFIX, result)
       if(compareResult(answer,result)){
+        this.stop()
         await submitAssignment(
           name,
           assignmentID,
@@ -99,7 +100,8 @@ class Competition extends Component {
     }
   }
 
-  onGetValue = (value) => {
+  onGetValue = (value, stop) => {
+    this.stop = stop
     this.setState({
       time:value
     })
@@ -157,7 +159,7 @@ class Competition extends Component {
             />
           </Col>
         </Row>
-        <Countdown callback={this.onTimeout} getValue={this.onGetValue}/>
+        <Countdown callback={this.onTimeout} getValue={this.onGetValue} />
         <ResultModal content={content} visible={visible} callback={this.onSubmit}/>
       </EditorLayout>
       </div>
